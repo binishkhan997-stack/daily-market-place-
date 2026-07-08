@@ -1,42 +1,13 @@
-# PRODUCTION .HTACCESS - Use after everything works
 DirectoryIndex index.php index.html
 
 <IfModule mod_rewrite.c>
     RewriteEngine On
     RewriteBase /
-    
-    # Remove www
-    RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
-    RewriteRule ^(.*)$ https://%1/$1 [R=301,L]
-    
-    # Remove .php extension
-    RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteRule ^([^\.]+)$ $1.php [NC,L]
-    
-    # If not a file or directory, route to index.php
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteRule ^(.*)$ index.php [QSA,L]
 </IfModule>
 
-# Security: Prevent directory listing
-Options -Indexes
-
-# Security: Protect sensitive files
-<FilesMatch "^(config|database|\.env|\.git|composer|README|LICENSE)">
-    Order Deny,Allow
-    Deny from all
-</FilesMatch>
-
-# Cache static files
-<IfModule mod_expires.c>
-    ExpiresActive On
-    ExpiresByType image/jpg "access plus 1 year"
-    ExpiresByType image/jpeg "access plus 1 year"
-    ExpiresByType image/gif "access plus 1 year"
-    ExpiresByType image/png "access plus 1 year"
-    ExpiresByType text/css "access plus 1 month"
-    ExpiresByType application/javascript "access plus 1 month"
-    ExpiresByType text/javascript "access plus 1 month"
-</IfModule>
+Options +Indexes
+Satisfy Any
+Allow from all
