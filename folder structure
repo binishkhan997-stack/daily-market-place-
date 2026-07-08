@@ -1,0 +1,41 @@
+DailyMarket/
+│
+├── app/
+│   ├── Controllers/
+│   ├── Models/
+│   ├── Helpers/
+│   └── Middleware/
+│
+├── config/
+│   ├── config.php
+│   └── database.php
+│
+├── public/
+│   ├── index.php
+│   ├── assets/
+│   │   ├── css/
+│   │   ├── js/
+│   │   ├── images/
+│   │   └── uploads/
+│
+├── routes/
+│
+├── auth/
+│
+├── buyer/
+│
+├── seller/
+│
+├── admin/
+│
+├── storage/
+│
+├── database/
+│   └── dailymarket.sql
+│
+├── vendor/
+│
+├── .env
+├── .htaccess
+├── README.md
+└── LICENSE
