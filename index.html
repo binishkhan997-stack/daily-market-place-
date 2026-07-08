@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multivendor Marketplace - Shop Online</title>
+    
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary: #FF636B;
+            --primary-dark: #0066CB;
+            --light-bg: #f8f9fa;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--light-bg);
+            padding-top: 80px;
+        }
+
+        /* Top Bar */
+        .top-bar {
+            background: var(--primary-dark);
+            color: #fff;
+            padding: 8px 0;
+            font-size: 0.9rem;
+        }
+
+        .top-bar a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+
+        .top-bar a:hover {
+            color: var(--primary);
+        }
+
+        /* Header */
+        .main-header {
+            background: #fff;
+            border-bottom: 2px solid var(--primary);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+        }
+
+        .main-header .logo h2 {
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        .main-header .logo h2 span {
+            color: var(--primary-dark);
+        }
+
+        .search-box {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .search-box input {
+            border-radius: 25px 0 0 25px;
+            border: 2px solid var(--primary);
+            padding: 10px 20px;
+        }
+
+        .search-box button {
+            border-radius: 0 25px 25px 0;
+            background: var(--primary);
+            color: #fff;
+            border: 2px solid var(--primary);
+            padding: 10px 25px;
+        }
+
+        .search-box button:hover {
+            background: var(--primary-dark);
+            border-color: var(--primary-dark);
+        }
+
+        .header-icons {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .header-icons a {
+            color: #333;
+            font-size: 1.2rem;
+            position: relative;
+        }
+
+        .header-icons a:hover {
+            color: var(--primary);
+        }
+
+        .header-icons .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -10px;
+            background: var(--primary);
+            color: #fff;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 0.7rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Navbar */
+        .navbar {
+            background: var(--primary-dark);
+        }
+
+        .navbar .nav-link {
+            color: #fff !important;
+            font-weight: 500;
+            padding: 10px 20px;
+        }
+
+        .navbar .nav-link:hover {
+            background: rgba(255,255,255,0.1);
+            border-radius: 5px;
+        }
+
+        .dropdown-menu {
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        /* Hero Slider */
+        .hero-slider {
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+            border-radius: 15px;
+            padding: 40px;
+            margin-bottom: 30px;
+            color: #fff;
+        }
+
+        .hero-slider h1 {
+            font-size: 3rem;
+            font-weight: 700;
+        }
+
+        .hero-slider .btn {
+            background: #fff;
+            color: var(--primary);
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-weight: 600;
+        }
+
+        .hero-slider .btn:hover {
+            background: var(--primary);
+            color: #fff;
+        }
+
+        /* Category Cards */
+        .category-card {
+            background: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            border: 1px solid #eee;
+        }
+
+        .category-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border-color: var(--primary);
+        }
+
+        .category-card i {
+            font-size: 2.5rem;
+            color: var(--primary);
+        }
+
+        .category-card h6 {
+            margin-top: 10px;
+            font-weight: 600;
+        }
+
+        /* Product Cards */
+        .product-card {
+            background: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid #eee;
+            height: 100%;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border-color: var(--primary);
+        }
+
+        .product-card .product-img {
+            height: 200px;
+            object-fit: cover;
+            width: 100%;
+        }
+
+        .product-card .product-body {
+            padding: 15px;
+        }
+
+        .product-card .product-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+            font-size: 1rem;
+        }
+
+        .product-card .product-title a {
+            color: #333;
+            text-decoration: none;
+        }
+
+        .product-card .product-title a:hover {
+            color: var(--primary);
+        }
+
+        .product-card .product-price {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .product-card .product-price .original {
+            font-size: 0.9rem;
+            color: #999;
+            text-decoration: line-through;
+            margin-left: 10px;
+        }
+
+        .product-card .product-vendor {
+            font-size: 0.85rem;
+            color: #888;
+        }
+
+        .product-card .product-rating {
+            color: #f5a623;
+            font-size: 0.9rem;
+        }
+
+        .product-card .add-to-cart {
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .product-card .add-to-cart:hover {
+            background: var(--primary-dark);
+        }
+
+        .product-card .badge-sale {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--primary);
+            color: #fff;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .product-card .badge-vendor {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: var(--primary-dark);
+            color: #fff;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+        }
+
+        /* Footer */
+        .footer {
+            background: #2c2b2b;
+            color: #fff;
+            padding: 50px 0 20px;
+            margin-top: 50px;
+        }
+
+        .footer h5 {
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+
+        .footer ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer ul li a {
+            color: #bbb;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer ul li a:hover {
+            color: var(--primary);
+        }
+
+        .footer .social-icons a {
+            color: #fff;
+            margin-right: 15px;
+            font-size: 1.2rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer .social-icons a:hover {
+            color: var(--primary);
+        }
+
+        .footer .copyright {
+            border-top: 1px solid #444;
+            padding-top: 20px;
+            margin-top: 30px;
+            color: #888;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-slider h1 {
+                font-size: 2rem;
+            }
+            .search-box {
+                max-width: 100%;
+                margin: 10px 0;
+            }
+            .main-header .logo h2 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <span><i class="fas fa-truck"></i> Free Delivery on orders over PKR 2000</span>
+                    <span class="ms-3"><i class="fas fa-phone"></i> +92 300 1234567</span>
+                </div>
+                <div class="col-md-6 text-end">
+                    <a href="#"><i class="fas fa-store"></i> Become a Seller</a>
+                    <a href="#"><i class="fas fa-headset"></i> Help</a>
+                    <a href="#"><i class="fas fa-user"></i> Login / Register</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Header -->
+    <header class="main-header">
+        <div class="container">
+            <div class="row align-items-center py-2">
+                <div class="col-md-3 logo">
+                    <h2>Market<span>PK</span></h2>
+                </div>
+                <div class="col-md-6">
+                    <div class="search-box">
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Search for products, brands, vendors...">
+                            <button><i class="fas fa-search"></i></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="header-icons justify-content-end">
+                        <a href="#"><i class="fas fa-heart"></i></a>
+                        <a href="#">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span class="cart-count">3</span>
+                        </a>
+                        <div class="dropdown">
+                            <button class="btn btn-link text-dark p-0" data-bs-toggle="dropdown">
+                                <i class="fas fa-user-circle" style="font-size: 1.5rem;"></i>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li><a class="dropdown-item" href="#">My Account</a></li>
+                                <li><a class="dropdown-item" href="#">My Orders</a></li>
+                                <li><a class="dropdown-item" href="#">Wishlist</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="#">Logout</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="mainNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Categories</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Electronics</a></li>
+                            <li><a class="dropdown-item" href="#">Clothing</a></li>
+                            <li><a class="dropdown-item" href="#">Books</a></li>
+                            <li><a class="dropdown-item" href="#">Home & Kitchen</a></li>
+                            <li><a class="dropdown-item" href="#">Beauty</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item"><a class="nav-link" href="#">Best Sellers</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">New Arrivals</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Deals</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Vendors</a></li>
+                </ul>
+                <ul class="navbar-nav">
+                    <li class="nav-item"><a class="nav-link" href="#"><i class="fas fa-store"></i> Seller Center</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container">
+
+        <!-- Hero Slider -->
+        <div class="hero-slider">
+            <div class="row align-items-center">
+                <div class="col-md-7">
+                    <h1>Shop to Get <br>What You Love</h1>
+                    <p>A revolution in recognition. Get the best deals from top vendors.</p>
+                    <a href="#" class="btn">Shop Now <i class="fas fa-arrow-right"></i></a>
+                </div>
+                <div class="col-md-5 text-center">
+                    <img src="https://via.placeholder.com/400x300/fff/0066CB?text=Shop+Now" class="img-fluid rounded" alt="Shopping">
+                </div>
+            </div>
+        </div>
+
+        <!-- Categories -->
+        <section class="mb-4">
+            <h4 class="mb-3">Shop by Category</h4>
+            <div class="row g-3">
+                <div class="col-6 col-md-2">
+                    <div class="category-card">
+                        <i class="fas fa-mobile-alt"></i>
+                        <h6>Electronics</h6>
+                    </div>
+                </div>
+                <div class="col-6 col-md-2">
+                    <div class="category-card">
+                        <i class="fas fa-tshirt"></i>
+                        <h6>Clothing</h6>
+                    </div>
+                </div>
+                <div class="col-6 col-md-2">
+                    <div class="category-card">
+                        <i class="fas fa-book"></i>
+                        <h6>Books</h6>
+                    </div>
+                </div>
+                <div class="col-6 col-md-2">
+                    <div class="category-card">
+                        <i class="fas fa-utensils"></i>
+                        <h6>Home & Kitchen</h6>
+                    </div>
+                </div>
+                <div class="col-6 col-md-2">
+                    <div class="category-card">
+                        <i class="fas fa-spa"></i>
+                        <h6>Beauty</h6>
+                    </div>
+                </div>
+                <div class="col-6 col-md-2">
+                    <div class="category-card">
+                        <i class="fas fa-futbol"></i>
+                        <h6>Sports</h6>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Featured Products -->
+        <section class="mb-4">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h4>Featured Products</h4>
+                <a href="#" class="text-decoration-none" style="color: var(--primary);">View All <i class="fas fa-arrow-right"></i></a>
+            </div>
+            <div class="row g-3">
+                <!-- Product Card 1 -->
+                <div class="col-6 col-md-3">
+                    <div class="product-card position-relative">
+                        <span class="badge-sale">-20%</span>
+                        <span class="badge-vendor">Vendor</span>
+                        <img src="https://via.placeholder.com/300x200/eee/333?text=Product" class="product-img" alt="Product">
+                        <div class="product-body">
+                            <div class="product-title"><a href="#">Wireless Bluetooth Headphones</a></div>
+                            <div class="product-vendor">By TechStore</div>
+                            <div class="product-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                                <span style="color: #888; font-size: 0.8rem;">(45)</span>
+                            </div>
+                            <div class="product-price">PKR 1,999 <span class="original">PKR 2,499</span></div>
+                            <button class="add-to-cart w-100 mt-2"><i class="fas fa-cart-plus"></i> Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Product Card 2 -->
+                <div class="col-6 col-md-3">
+                    <div class="product-card position-relative">
+                        <span class="badge-vendor">Vendor</span>
+                        <img src="https://via.placeholder.com/300x200/eee/333?text=Product" class="product-img" alt="Product">
+                        <div class="product-body">
+                            <div class="product-title"><a href="#">Men's Casual Shirt</a></div>
+                            <div class="product-vendor">By FashionHub</div>
+                            <div class="product-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <span style="color: #888; font-size: 0.8rem;">(128)</span>
+                            </div>
+                            <div class="product-price">PKR 1,499</div>
+                            <button class="add-to-cart w-100 mt-2"><i class="fas fa-cart-plus"></i> Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Product Card 3 -->
+                <div class="col-6 col-md-3">
+                    <div class="product-card position-relative">
+                        <span class="badge-sale">-15%</span>
+                        <span class="badge-vendor">Vendor</span>
+                        <img src="https://via.placeholder.com/300x200/eee/333?text=Product" class="product-img" alt="Product">
+                        <div class="product-body">
+                            <div class="product-title"><a href="#">Smart Watch Series 5</a></div>
+                            <div class="product-vendor">By GadgetWorld</div>
+                            <div class="product-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="far fa-star"></i>
+                                <span style="color: #888; font-size: 0.8rem;">(32)</span>
+                            </div>
+                            <div class="product-price">PKR 4,999 <span class="original">PKR 5,899</span></div>
+                            <button class="add-to-cart w-100 mt-2"><i class="fas fa-cart-plus"></i> Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Product Card 4 -->
+                <div class="col-6 col-md-3">
+                    <div class="product-card position-relative">
+                        <span class="badge-vendor">Vendor</span>
+                        <img src="https://via.placeholder.com/300x200/eee/333?text=Product" class="product-img" alt="Product">
+                        <div class="product-body">
+                            <div class="product-title"><a href="#">Organic Face Cream</a></div>
+                            <div class="product-vendor">By BeautyCare</div>
+                            <div class="product-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                                <span style="color: #888; font-size: 0.8rem;">(89)</span>
+                            </div>
+                            <div class="product-price">PKR 899</div>
+                            <button class="add-to-cart w-100 mt-2"><i class="fas fa-cart-plus"></i> Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Banner Section -->
+        <div class="row g-3 mb-4">
+            <div class="col-md-6">
+                <div class="p-4 rounded" style="background: linear-gradient(135deg, #0066CB, #0044aa); color: #fff; height: 100%;">
+                    <h3>Get Great Deals on Handbags</h3>
+                    <p>Up to 50% off on premium handbags from top vendors</p>
+                    <a href="#" class="btn btn-light">Shop Now</a>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="p-4 rounded" style="background: linear-gradient(135deg, #FF636B, #cc3333); color: #fff; height: 100%;">
+                    <h3>Summer Sale Starts Now</h3>
+                    <p>Get the best deals on summer collection</p>
+                    <a href="#" class="btn btn-light">Shop Now</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Best Sellers -->
+        <section class="mb-4">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h4>Best Selling Products</h4>
+                <a href="#" class="text-decoration-none" style="color: var(--primary);">View All <i class="fas fa-arrow-right"></i></a>
+            </div>
+            <div class="row g-3">
+                <!-- Product Card 1 -->
+                <div class="col-6 col-md-3">
+                    <div class="product-card position-relative">
+                        <span class="badge-vendor">Vendor</span>
+                        <img src="https://via.placeholder.com/300x200/eee/333?text=Best+Seller" class="product-img" alt="Product">
+                        <div class="product-body">
+                            <div class="product-title"><a href="#">Premium Leather Wallet</a></div>
+                            <div class="product-vendor">By LeatherCraft</div>
+                            <div class="product-price">PKR 1,299</div>
+                            <button class="add-to-cart w-100 mt-2"><i class="fas fa-cart-plus"></i> Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Product Card 2 -->
+                <div class="col-6 col-md-3">
+                    <div class="product-card position-relative">
+                        <span class="badge-vendor">Vendor</span>
+                        <img src="https://via.placeholder.com/300x200/eee/333?text=Best+Seller" class="product-img" alt="Product">
+                        <div class="product-body">
+                            <div class="product-title"><a href="#">Wireless Mouse</a></div>
+                            <div class="product-vendor">By TechStore</div>
+                            <div class="product-price">PKR 799</div>
+                            <button class="add-to-cart w-100 mt-2"><i class="fas fa-cart-plus"></i> Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Product Card 3 -->
+                <div class="col-6 col-md-3">
+                    <div class="product-card position-relative">
+                        <span class="badge-vendor">Vendor</span>
+                        <img src="https://via.placeholder.com/300x200/eee/333?text=Best+Seller" class="product-img" alt="Product">
+                        <div class="product-body">
+                            <div class="product-title"><a href="#">Yoga Mat Premium</a></div>
+                            <div class="product-vendor">By SportsZone</div>
+                            <div class="product-price">PKR 2,499</div>
+                            <button class="add-to-cart w-100 mt-2"><i class="fas fa-cart-plus"></i> Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Product Card 4 -->
+                <div class="col-6 col-md-3">
+                    <div class="product-card position-relative">
+                        <span class="badge-vendor">Vendor</span>
+                        <img src="https://via.placeholder.com/300x200/eee/333?text=Best+Seller" class="product-img" alt="Product">
+                        <div class="product-body">
+                            <div class="product-title"><a href="#">Organic Tea Sampler</a></div>
+                            <div class="product-vendor">By NatureGoods</div>
+                            <div class="product-price">PKR 599</div>
+                            <button class="add-to-cart w-100 mt-2"><i class="fas fa-cart-plus"></i> Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-md-3">
+                    <h5>MarketPK</h5>
+                    <p style="color: #bbb;">Your one-stop marketplace for quality products from trusted vendors across Pakistan.</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <h5>Quick Links</h5>
+                    <ul>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">Terms & Conditions</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h5>For Vendors</h5>
+                    <ul>
+                        <li><a href="#">Sell on MarketPK</a></li>
+                        <li><a href="#">Vendor Dashboard</a></li>
+                        <li><a href="#">Vendor FAQ</a></li>
+                        <li><a href="#">Payouts</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h5>Contact Info</h5>
+                    <ul>
+                        <li><i class="fas fa-phone"></i> +92 300 1234567</li>
+                        <li><i class="fas fa-envelope"></i> info@marketpk.com</li>
+                        <li><i class="fas fa-map-marker-alt"></i> Karachi, Pakistan</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright text-center">
+                <p>&copy; 2025 MarketPK. All Rights Reserved. Powered by Multivendor Marketplace</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
