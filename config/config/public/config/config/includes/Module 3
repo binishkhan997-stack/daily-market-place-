@@ -1,0 +1,12 @@
+seller/
+│
+├── dashboard.php
+├── profile.php
+├── products.php
+├── add-product.php
+├── edit-product.php
+├── orders.php
+├── earnings.php
+├── withdraw.php
+├── reviews.php
+└── settings.php
