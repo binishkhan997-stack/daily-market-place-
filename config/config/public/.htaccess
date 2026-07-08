@@ -1,0 +1,5 @@
+RewriteEngine On
+
+Options -Indexes
+
+DirectoryIndex public/index.php
