@@ -1,0 +1,12 @@
+auth/
+│
+├── login.php
+├── register.php
+├── logout.php
+├── forgot-password.php
+├── verify-email.php
+├── google-login.php
+├── facebook-login.php
+├── phone-login.php
+├── otp-verify.php
+└── callback.php
